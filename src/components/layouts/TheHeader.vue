@@ -5,10 +5,10 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-items>
-      <v-btn :class="appBarBtnClasses">Home</v-btn>
+      <v-btn to="/home" :class="appBarBtnClasses">Home</v-btn>
       <v-btn :class="appBarBtnClasses">Recipes</v-btn>
-      <v-btn :class="appBarBtnClasses">About</v-btn>
-      <v-btn :class="appBarBtnClasses">Login</v-btn>
+      <v-btn to="/about" :class="appBarBtnClasses">About</v-btn>
+      <v-btn :class="appBarBtnClasses">Sign-in</v-btn>
     </v-toolbar-items>
   </v-app-bar>
 </template>
