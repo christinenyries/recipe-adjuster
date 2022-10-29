@@ -1,5 +1,5 @@
 <template>
-  <recipe-adjust :recipe="recipe"></recipe-adjust>
+  <recipe-adjust :recipe="fullRecipe"></recipe-adjust>
 </template>
 
 <script>
@@ -12,14 +12,24 @@ export default {
     RecipeAdjust,
   },
   computed: {
-    ...mapGetters("recipes", ["sampleRecipe"]),
-    ...mapGetters("ingredients", ["sampleIngredients"]),
-    ...mapGetters("servings", ["sampleServings"]),
-    recipe() {
+    ...mapGetters("recipes", ["recipe"]),
+    ...mapGetters("amounts", ["amounts"]),
+    fullRecipe() {
+      const ingredients = this.recipe.ingredients.map((ingredient) => {
+        return {
+          ...ingredient,
+          amount: this.amounts.ingredients[ingredient.id],
+        };
+      });
+
+      const servings = this.amounts.servings;
+
       return {
-        ...this.sampleRecipe,
-        servings: this.sampleServings.value,
-        ingredients: this.sampleIngredients.value,
+        id: this.recipe.id,
+        name: this.recipe.name,
+        link: this.recipe.link,
+        ingredients,
+        servings,
       };
     },
   },

@@ -7,24 +7,36 @@
       </v-card-subtitle>
       <v-card-text>
         Please select which item (e.g. servings or ingredient) to adjust.
-        <v-form ref="form">
-          <v-container>
-            <servings-adjust :servings="servings" />
-            <ingredient-adjust
-              v-for="ingredient in ingredients"
-              :key="ingredient.id"
-              :ingredient="ingredient"
-            />
-          </v-container>
-        </v-form>
+        <v-container>
+          <servings-adjust
+            :value="servings"
+            :selected="selected.servings"
+            @select="select"
+            @cancel="cancel"
+            @adjust="adjust"
+          ></servings-adjust>
+          <ingredient-adjust
+            v-for="ingredient in ingredients"
+            :key="ingredient.id"
+            :value="ingredient.amount"
+            :selected="selected.ingredients[ingredient.id]"
+            :id="ingredient.id"
+            :unit="ingredient.unit"
+            :name="ingredient.name"
+            @select="select"
+            @cancel="cancel"
+            @adjust="adjust"
+          >
+          </ingredient-adjust>
+        </v-container>
       </v-card-text>
     </base-card>
   </v-container>
 </template>
 
 <script>
-import IngredientAdjust from "@/components/ingredients/IngredientAdjust.vue";
-import ServingsAdjust from "@/components/servings/ServingsAdjust.vue";
+import IngredientAdjust from "@/components/amounts/IngredientAdjust.vue";
+import ServingsAdjust from "@/components/amounts/ServingsAdjust.vue";
 
 export default {
   props: {
@@ -33,8 +45,20 @@ export default {
     },
   },
   components: {
-    ServingsAdjust,
     IngredientAdjust,
+    ServingsAdjust,
+  },
+  data() {
+    return {
+      selected: {
+        servings: false,
+        ingredients: this.recipe.ingredients.reduce((acc, ingredient) => {
+          acc[ingredient.id] = false;
+          return acc;
+        }, {}),
+      },
+      lastSelected: null,
+    };
   },
   computed: {
     name() {
@@ -48,6 +72,38 @@ export default {
     },
     ingredients() {
       return this.recipe.ingredients;
+    },
+  },
+  methods: {
+    toggle(type, id) {
+      if (type === "ingredients") {
+        this.selected[type][id] = !this.selected[type][id];
+      } else {
+        this.selected[type] = !this.selected[type];
+      }
+    },
+    select(type, id) {
+      this.toggle(type, id);
+      if (this.lastSelected) {
+        this.toggle(this.lastSelected.type, this.lastSelected.id);
+      }
+      this.lastSelected = { type, id };
+    },
+    cancel(type, id) {
+      this.toggle(type, id);
+      this.lastSelected = null;
+    },
+    adjust(type, amount, id) {
+      if (type === "ingredients") {
+        this.$store.dispatch("amounts/adjustIngredient", {
+          ingredientId: id,
+          newAmount: amount,
+        });
+      } else {
+        this.$store.dispatch("amounts/adjustServings", { newAmount: amount });
+      }
+      this.toggle(type, id);
+      this.lastSelected = null;
     },
   },
 };

@@ -8,6 +8,7 @@
       :text="text"
       :block="block"
       :outlined="outlined"
+      :disabled="disabled"
       :class="btnClasses"
       depressed
       @click="$emit('click')"
@@ -17,10 +18,10 @@
     <v-btn
       v-else
       :to="to"
-      :color="color"
       :text="text"
       :block="block"
       :outlined="outlined"
+      :disabled="disabled"
       :class="btnClasses"
       depressed
       @click="$emit('click')"
@@ -39,6 +40,11 @@ export default {
     };
   },
   props: {
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     text: {
       type: Boolean,
       required: false,

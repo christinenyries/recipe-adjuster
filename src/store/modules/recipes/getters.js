@@ -1,5 +1,5 @@
 export default {
-    sampleRecipe(state) {
-        return state.sampleRecipe;
-    }
+    recipe(state, _, _2, rootGetters) {
+        return state.recipes[rootGetters.recipeId];
+    },
 }

@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import recipes from './modules/recipes/index.js'
-import ingredients from './modules/ingredients/index.js'
-import servings from './modules/servings/index.js'
+import amounts from './modules/amounts/index.js'
+
+import getters from './getters.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    recipeId: 'r0',
   },
   modules: {
     recipes,
-    ingredients,
-    servings
-  }
+    amounts
+  },
+  getters
 })
