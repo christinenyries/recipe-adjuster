@@ -6,9 +6,8 @@ export default {
     namespaced: true,
     state() {
         return {
-            recipeId: 'r0',
-            recipes: {
-                'r0': {
+            recipes: [
+                {
                     id: 'r0',
                     name: 'Napa Cabbage Kimchi',
                     link: 'https://www.maangchi.com/recipe/tongbaechu-kimchi',
@@ -94,8 +93,8 @@ export default {
                             name: 'red pepper flakes',
                         },
                     ]
-                },
-            }
+                }
+            ],
         }
     },
     getters,

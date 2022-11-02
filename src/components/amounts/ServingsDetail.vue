@@ -1,22 +1,22 @@
 <template>
-  <amount-adjust
+  <amount-detail
     :selected="selected"
     :cols="8"
-    :value="value"
+    :initial-value="value"
     label="Servings"
     @select="select"
     @cancel="cancel"
     @adjust="adjust"
   >
-  </amount-adjust>
+  </amount-detail>
 </template>
 
 <script>
-import AmountAdjust from "@/components/amounts/AmountAdjust.vue";
+import AmountDetail from "@/components/amounts/AmountDetail.vue";
 
 export default {
   components: {
-    AmountAdjust,
+    AmountDetail,
   },
   props: {
     value: {
@@ -35,8 +35,8 @@ export default {
     cancel() {
       this.$emit("cancel", "servings");
     },
-    adjust(amount) {
-      this.$emit("adjust", "servings", amount);
+    adjust(newVal, oldVal) {
+      this.$emit("adjust", "servings", newVal, oldVal);
     },
   },
 };

@@ -1,10 +1,14 @@
 export default {
-    adjustServings(state, payload) {
-        const { newServings, recipeId } = payload;
-        const currServings = state.servings[recipeId];
-        for (const ingredientId of Object.keys(state.ingredients[recipeId])) {
-            state.ingredients[recipeId][ingredientId] *= (newServings / currServings);
+    adjustAmount(state, payload) {
+        const { recipeId, multiplier } = payload;
+        const amount = state.amounts.find(amount => amount.recipeId === recipeId);
+
+        for (const ingredientId of Object.keys(amount.ingredients)) {
+            amount.ingredients[ingredientId] *= multiplier;
         }
-        state.servings[recipeId] = newServings;
+        amount.servings *= multiplier;
+    },
+    addAmount(state, payload) {
+        state.amounts.push(payload);
     },
 }

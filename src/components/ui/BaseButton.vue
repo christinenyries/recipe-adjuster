@@ -1,44 +1,35 @@
 <template>
-  <v-container pa-0 ma-0>
-    <v-btn
-      v-if="link"
-      target="_blank"
-      :href="to"
-      :color="color"
-      :text="text"
-      :block="block"
-      :outlined="outlined"
-      :disabled="disabled"
-      :class="btnClasses"
-      depressed
-      @click="$emit('click')"
-    >
-      <slot></slot>
-    </v-btn>
-    <v-btn
-      v-else
-      :to="to"
-      :text="text"
-      :block="block"
-      :outlined="outlined"
-      :disabled="disabled"
-      :class="btnClasses"
-      depressed
-      @click="$emit('click')"
-    >
-      <slot></slot>
-    </v-btn>
-  </v-container>
+  <v-btn
+    v-if="link"
+    target="_blank"
+    :href="to"
+    :color="color"
+    :text="text"
+    :block="block"
+    :outlined="outlined"
+    :disabled="disabled"
+    depressed
+    @click="$emit('click')"
+  >
+    <slot></slot>
+  </v-btn>
+  <v-btn
+    v-else
+    :to="to"
+    :color="color"
+    :text="text"
+    :block="block"
+    :outlined="outlined"
+    :disabled="disabled"
+    depressed
+    @click="$emit('click')"
+  >
+    <slot></slot>
+  </v-btn>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      color: "teal",
-      btnClasses: ["pa-0", "ma-0"],
-    };
-  },
   props: {
     disabled: {
       type: Boolean,
@@ -68,6 +59,11 @@ export default {
     to: {
       type: String,
       required: false,
+    },
+  },
+  computed: {
+    color() {
+      return "primary";
     },
   },
 };

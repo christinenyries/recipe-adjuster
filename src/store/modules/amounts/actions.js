@@ -1,20 +1,18 @@
 export default {
-    adjustServings(context, payload) {
-        const recipeId = context.rootGetters.recipeId
-
-        const newServings = payload.newAmount;
-        context.commit('adjustServings', { newServings, recipeId })
+    adjustAmount(context, payload) {
+        context.commit('adjustAmount', payload)
     },
-    adjustIngredient(context, payload) {
-        const recipeId = context.rootGetters.recipeId
+    addAmount(context, payload) {
+        const { ingredients, servings, recipeId } = payload
 
-        const { ingredientId, newAmount } = payload;
+        const amount = {
+            id: 'a1',
+            recipeId,
+            ingredients,
+            servings
+        }
+        context.commit('addAmount', amount)
 
-        const currAmount = context.getters.ingredients[ingredientId];
-        const currServings = context.getters.servings;
-
-        const newServings = currServings * (newAmount / currAmount)
-
-        context.commit('adjustServings', { newServings, recipeId })
+        return amount;
     }
 }
