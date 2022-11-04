@@ -1,17 +1,26 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+import UserAuthView from '../views/UserAuthView.vue'
 import HomeView from '../views/HomeView.vue'
 import RecipeDetailView from '../views/RecipeDetailView.vue'
 import RecipeFormView from '../views/RecipeFormView.vue'
 import RecipeListView from '../views/RecipeListView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/auth',
+    component: UserAuthView,
+    meta: { requiresUnauth: true }
+  },
+  {
     path: '/recipes',
     component: RecipeListView,
+    meta: { requiresAuth: true },
   },
   {
     path: '/',
@@ -21,11 +30,13 @@ const routes = [
   {
     path: '/recipes/add',
     component: RecipeFormView,
+    meta: { requiresAuth: true },
   },
   {
     path: '/recipes/:id',
     component: RecipeDetailView,
-    props: true
+    props: true,
+    meta: { requiresAuth: true },
   },
   {
     path: '/about',
@@ -37,8 +48,10 @@ const routes = [
   },
   {
     path: '/:notFound(.*)',
+    alias: '/not-found',
+    name: 'notFound',
     component: NotFoundView
-  }
+  },
 ]
 
 const router = new VueRouter({
@@ -46,5 +59,17 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach(function (to, _, next) {
+  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+    next('/auth');
+  }
+  else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {
+    next('/recipes');
+  }
+  else {
+    next();
+  }
+});
 
 export default router

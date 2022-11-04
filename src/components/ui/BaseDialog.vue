@@ -9,8 +9,8 @@
       <slot name="activator" :on="on" :attrs="attrs"></slot>
     </template>
     <v-card>
-      <v-toolbar :color="color">{{ title }}</v-toolbar>
-      <v-card-text>
+      <v-toolbar :color="color" dark>{{ title }}</v-toolbar>
+      <v-card-text class="pt-5">
         <slot></slot>
       </v-card-text>
       <v-card-actions v-if="!persistent" class="justify-center">

@@ -4,6 +4,7 @@
     <v-card-subtitle>{{ link }}</v-card-subtitle>
     <v-card-actions>
       <base-button text :to="adjustRecipeLink">Adjust</base-button>
+      <base-button text @click="deleteRecipe">Delete</base-button>
     </v-card-actions>
   </base-card>
 </template>
@@ -27,6 +28,15 @@ export default {
     },
     adjustRecipeLink() {
       return `${this.$route.path}/${this.id}`;
+    },
+  },
+  methods: {
+    deleteRecipe() {
+      this.$store.dispatch("recipes/removeRecipe", {
+        recipeId: this.id,
+        ingredientIds: this.recipe.ingredientIds,
+        servingsId: this.servingsId,
+      });
     },
   },
 };

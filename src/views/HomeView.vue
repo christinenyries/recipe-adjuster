@@ -9,14 +9,11 @@
           <p>This tool can help if you have a recipe but...
             <ul>
               <li>You want to make more/less servings.</li>
-              <li>You don't have the same amount of ingredients.</li>
+              <li>You have more/less of an ingredient.</li>
             </ul>
           </p>
           <p>Click <base-button to="/recipes/add" class="mx-2">Add Recipe</base-button> to get started.</p>
-          <p>
-            Or try adjusting this Kimchi recipe below first, so you get a feel
-            for how this tool work.
-          </p>
+          <p>Or get a feel for how this tool work first. Try adjusting the recipe below:</p>
         </v-card-text>
       </base-card>
     </v-row>
@@ -38,7 +35,7 @@ export default {
   },
   data() {
     return {
-      recipeId: "r0",
+      recipeId: "r0", // id of sample recipe
     };
   },
 };

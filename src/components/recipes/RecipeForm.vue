@@ -71,23 +71,26 @@ export default {
         val: 1,
         rules: [
           (v) =>
-            (!isNaN(parseFloat(v)) && v > 0) ||
+            (!isNaN(parseFloat(v)) && parseFloat(v) > 0) ||
             "Servings must be a positive number and not zero.",
         ],
       },
       name: {
         val: "",
-        rules: [(v) => !!v || "Name must not be empty."],
+        rules: [(v) => !!v.trim() || "Name must not be empty."],
         placeholder: "Homemade Tonkatsu Sauce",
       },
       link: {
         val: "",
-        rules: [(v) => !v || isValidUrl(v) || "Link must be a valid URL."],
+        rules: [
+          (v) =>
+            !v.trim() || isValidUrl(v.trim()) || "Link must be a valid URL.",
+        ],
         placeholder: "https://www.justonecookbook.com/tonkatsu-sauce-recipe/",
       },
       ingredients: {
         val: "",
-        rules: [(v) => !!v || "Ingredients must not be empty."],
+        rules: [(v) => !!v.trim() || "Ingredients must not be empty."],
         placeholder:
           "1 Tbsp ketchup\n" +
           "2½ tsp Worcestershire sauce\n" +

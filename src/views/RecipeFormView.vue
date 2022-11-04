@@ -11,11 +11,8 @@
             :show="!!error"
             @close="handleError"
           >
-            <div class="pa-12">{{ error }}</div>
-          </base-dialog>
-
-          <base-dialog title="Adding recipe..." :show="isLoading" persistent>
-            <v-progress-circular indeterminate />
+            <p>{{ error && error.message }}</p>
+            <code>{{ error && error.reason }}</code>
           </base-dialog>
         </v-card-text>
       </base-card>
@@ -30,7 +27,6 @@ import RecipeForm from "@/components/recipes/RecipeForm.vue";
 export default {
   data() {
     return {
-      isLoading: false,
       error: null,
     };
   },
@@ -39,35 +35,24 @@ export default {
   },
   methods: {
     async saveData(data) {
-      this.isLoading = true;
       try {
-        const { name, link, servings } = data;
-        const ingredients = parseIngredients(data.ingredients);
+        const recipe = {
+          name: data.name,
+          link: data.link,
+          servings: data.servings,
+          ingredients: parseIngredients(data.ingredients),
+        };
 
-        const recipe = await this.$store.dispatch("recipes/addRecipe", {
-          name,
-          link,
-          ingredients: ingredients.map((i) => ({
-            unit: i.unit,
-            name: i.name,
-          })),
-        });
+        await this.$store.dispatch("recipes/addRecipe", recipe);
 
-        await this.$store.dispatch("amounts/addAmount", {
-          recipeId: recipe.id,
-          ingredients: ingredients.reduce((acc, i, idx) => {
-            acc[recipe.ingredients[idx].id] = i.amount;
-            return acc;
-          }, {}),
-          servings,
-        });
+        this.$router.replace("/recipes");
       } catch (error) {
-        this.error =
-          error.message ||
-          "Failed to add recipe. Please try again later or check your input.";
+        this.error = {
+          message:
+            "Failed to add recipe. Please try again later or check your input.",
+          reason: error.message || "",
+        };
       }
-      this.isLoading = false;
-      this.$router.replace("/recipes");
     },
     handleError() {
       this.error = null;
