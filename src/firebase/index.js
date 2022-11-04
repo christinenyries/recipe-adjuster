@@ -104,7 +104,7 @@ async function logout() {
     await signOut(auth);
 }
 
-function userStateChanged(callback) { // TODO: Finalize name
+function userStateChanged(callback) {
     onAuthStateChanged(auth, callback);
 }
 
