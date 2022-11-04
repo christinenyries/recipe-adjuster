@@ -35,7 +35,7 @@ export default {
       this.$store.dispatch("recipes/removeRecipe", {
         recipeId: this.id,
         ingredientIds: this.recipe.ingredientIds,
-        servingsId: this.servingsId,
+        servingsId: this.recipe.servingsId,
       });
     },
   },
