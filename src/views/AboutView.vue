@@ -12,8 +12,8 @@
               where she don't have the right amount of ingredients as suggested
               in a recipe. Adjustments are needed and sometimes this is done
               manually on a piece of paper. Sometimes with the help of Excel.
-              Before long, the frustration from doing these adjustments time and
-              time again have piled up and they sparked the ideas for this tool.
+              The frustration from doing these adjustments time and time again
+              have sparked the ideas for making this tool.
             </li>
           </ul>
         </v-card-text>
@@ -62,6 +62,21 @@
                 max-width="50"
               ></v-img>
             </a>
+          </v-container>
+        </v-card-text>
+      </base-card>
+      <base-card>
+        <v-card-title>Support</v-card-title>
+        <v-card-text>
+          <v-container d-flex>
+            <a href="https://ko-fi.com/N4N1G6GSL" target="_blank"
+              ><img
+                height="36"
+                style="border: 0px; height: 36px"
+                src="https://storage.ko-fi.com/cdn/kofi1.png?v=3"
+                border="0"
+                alt="Support Me on Ko-fi"
+            /></a>
           </v-container>
         </v-card-text>
       </base-card>
