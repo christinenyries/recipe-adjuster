@@ -1,7 +1,7 @@
 # recipe-adjuster
 
 ## Web App Link
-[recipe-adjuster-8369f.web.app](recipe-adjuster-8369f.web.app)
+[recipe-adjuster-8369f.web.app](https://recipe-adjuster-8369f.web.app/)
 
 ## Project setup
 ```
