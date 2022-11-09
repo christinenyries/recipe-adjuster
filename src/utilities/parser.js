@@ -4,7 +4,7 @@ import { fraction as makeFraction, add } from 'mathjs';
 const fractionUnicodePattern = '[\\u2150-\\u215e\\u00bc-\\u00be]';
 
 // e.g. 1, 1.25
-const floatPattern = '((?<decimal>\\d+)(?<fraction>.\\d+)?)';
+const floatPattern = '((?<decimal>\\d+)(?<fraction>\\.\\d+)?)';
 
 // e.g. 1/4, 1 1/4
 const wholeAndFractionPattern = '(((?<decimal>\\d+) )?(?<fraction>\\d+/\\d+))';
@@ -62,18 +62,26 @@ function parseAmount(text) {
         if (!(new RegExp(`^${amountPattern}$`)).test(text)) {
             continue;
         }
+        console.log(amountPattern)
 
         const match = text.match(amountPattern);
         const { decimal, fraction } = match.groups;
-
-        if (fraction) {
-            const sum = add(
-                decimal,
-                makeFraction(normalize(fraction))
-            );
-            return parseFloat(sum.toString());
-        } else {
-            return parseFloat(decimal);
+        try {
+            if (decimal && fraction) {
+                const sum = add(
+                    decimal,
+                    makeFraction(normalize(fraction))
+                );
+                return parseFloat(sum.toString());
+            } else if (fraction) {
+                return parseFloat(makeFraction(normalize(fraction)).toString());
+            } else {
+                return parseFloat(decimal);
+            }
+        }
+        catch (e) {
+            console.log(e)
+            throw e
         }
     }
     throw new Error(`Amount (${text}) doesn't match any of the expected formats (e.g. 1, 1.25, 1/4, 1 1/4, ½, 1½)`)
