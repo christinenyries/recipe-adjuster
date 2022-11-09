@@ -62,26 +62,19 @@ function parseAmount(text) {
         if (!(new RegExp(`^${amountPattern}$`)).test(text)) {
             continue;
         }
-        console.log(amountPattern)
 
         const match = text.match(amountPattern);
         const { decimal, fraction } = match.groups;
-        try {
-            if (decimal && fraction) {
-                const sum = add(
-                    decimal,
-                    makeFraction(normalize(fraction))
-                );
-                return parseFloat(sum.toString());
-            } else if (fraction) {
-                return parseFloat(makeFraction(normalize(fraction)).toString());
-            } else {
-                return parseFloat(decimal);
-            }
-        }
-        catch (e) {
-            console.log(e)
-            throw e
+        if (decimal && fraction) {
+            const sum = add(
+                decimal,
+                makeFraction(normalize(fraction))
+            );
+            return parseFloat(sum.toString());
+        } else if (fraction) {
+            return parseFloat(makeFraction(normalize(fraction)).toString());
+        } else {
+            return parseFloat(decimal);
         }
     }
     throw new Error(`Amount (${text}) doesn't match any of the expected formats (e.g. 1, 1.25, 1/4, 1 1/4, ½, 1½)`)
